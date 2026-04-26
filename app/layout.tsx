@@ -1,29 +1,25 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
 
-const poppins = Poppins({
-  subsets: ["latin"],
+const inter = Inter({
+  subsets: ['latin'],
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  variable: "--font-poppins",
+  variable: '--font-inter',
 });
 
-
 export const metadata: Metadata = {
-  title: "KSN Drive",
-  description: "Store your files online. Access them from anywhere, anytime.",
+  title: 'KSN Drive',
+  description: 'Store your files online. Access them from anywhere, anytime.',
   appleWebApp: {
-    title: "KSN Drive"
-  }
+    title: 'KSN Drive',
+  },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html
-      lang="en"
-      className={`${poppins.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col font-poppins">{children}</body>
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col font-inter">{children}</body>
     </html>
   );
 }
