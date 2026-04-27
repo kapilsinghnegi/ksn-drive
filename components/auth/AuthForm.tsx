@@ -7,8 +7,9 @@ import * as z from 'zod';
 import { Field, FieldError, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import Image from 'next/image';
 import Link from 'next/link';
+import { createAccount } from '@/lib/actions/user.actions';
+import { Spinner } from '../ui/spinner';
 
 type FormType = 'sign-in' | 'sign-up';
 
@@ -30,6 +31,7 @@ const authFormSchema = (formType: FormType) => {
 export default function AuthForm({ type }: { type: FormType }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [accountId, setAccountId] = useState(null);
 
   const schema = authFormSchema(type);
 
@@ -41,19 +43,23 @@ export default function AuthForm({ type }: { type: FormType }) {
     },
   });
 
-  function onSubmit(data: z.infer<typeof schema>) {
+  const onSubmit = async (data: z.infer<typeof schema>) => {
     setIsLoading(true);
     setErrorMessage(null);
 
     try {
-      console.log(data);
+      // const user =
+      //   type === 'sign-in' &&
+      //   (await createAccount({ fullName: data.fullName || '', email: data.email }));
+      // setAccountId(user.accountId);
+      setTimeout(() => {}, 10000);
     } catch (error) {
       console.error('Error submitting the form:', error);
       setErrorMessage('An error occurred while submitting the form. Please try again.');
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
@@ -70,7 +76,7 @@ export default function AuthForm({ type }: { type: FormType }) {
                 id={field.name}
                 aria-invalid={fieldState.invalid}
                 placeholder="Enter your full name"
-                className="shad-input"
+                className="shad-input rounded-md"
                 autoComplete="name"
               />{' '}
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}{' '}
@@ -90,24 +96,15 @@ export default function AuthForm({ type }: { type: FormType }) {
               type="email"
               aria-invalid={fieldState.invalid}
               placeholder="Enter your email"
-              className="shad-input"
+              className="shad-input rounded-md"
               autoComplete="email"
             />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
       />
-      <Button type="submit" className="form-submit-button" disabled={isLoading}>
-        {type === 'sign-in' ? 'Sign In' : 'Sign Up'}{' '}
-        {isLoading && (
-          <Image
-            src="/assets/icons/loader.svg"
-            alt="loader"
-            width={24}
-            height={24}
-            className="ml-2 animate-spin"
-          />
-        )}
+      <Button type="submit" className="form-submit-button rounded-md" disabled={isLoading}>
+        {type === 'sign-in' ? 'Sign In' : 'Sign Up'} {isLoading && <Spinner className="size-3" />}
       </Button>
       {errorMessage && <p className="error-message">*{errorMessage}</p>}{' '}
       <div className="body-2 flex justify-center">
