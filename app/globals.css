@@ -222,7 +222,7 @@
 }
 
 @utility button {
-  @apply text-[14px] leading-5 font-medium;
+  @apply text-[14px] leading-5 font-medium cursor-pointer;
 }
 
 @utility caption {
@@ -301,11 +301,11 @@
 
 /* Sidebar & MobileNavigation */
 @utility nav-icon {
-  @apply w-6 opacity-25 invert;
+  @apply opacity-30;
 }
 
 @utility nav-icon-active {
-  @apply opacity-100 invert-0;
+  @apply opacity-100;
 }
 
 /* Scrollbar */
@@ -515,12 +515,12 @@
 }
 
 @utility sign-out-button {
-  @apply flex-center h-13 min-w-13.5 rounded-full bg-brand/10 p-0 text-brand shadow-none transition-all hover:bg-brand/20;
+  @apply flex-center bg-brand/10 rounded-full p-0 text-brand shadow-none transition-all hover:bg-brand/20 cursor-pointer;
 }
 
 /* Mobile Navigation */
 @utility mobile-header {
-  @apply flex h-15 justify-between px-5 sm:hidden;
+  @apply h-15 flex justify-between items-center px-5 sm:hidden;
 }
 
 @utility header-user {

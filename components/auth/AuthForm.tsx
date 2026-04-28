@@ -10,7 +10,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
 import OTPModal from './OTPModal';
-import { createAccount } from '@/lib/actions/user.actions';
+import { createAccount, signInUser } from '@/lib/actions/user.actions';
 
 type FormType = 'sign-in' | 'sign-up';
 
@@ -49,10 +49,10 @@ export default function AuthForm({ type }: { type: FormType }) {
     setErrorMessage(null);
     try {
       const user =
-        type === 'sign-up' &&
-        (await createAccount({ fullName: data.fullName || '', email: data.email }));
+        type === 'sign-in'
+          ? await signInUser({ email: data.email })
+          : await createAccount({ fullName: data.fullName || '', email: data.email });
       setAccountId(user.accountId);
-      console.log('heer', user);
     } catch (error) {
       console.error('Error submitting the form:', error);
       setErrorMessage('An error occurred while submitting the form. Please try again.');
