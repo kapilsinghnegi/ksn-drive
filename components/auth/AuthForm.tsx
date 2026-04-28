@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import * as z from 'zod';
+import Link from 'next/link';
 import { Field, FieldError, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import Link from 'next/link';
-import { createAccount } from '@/lib/actions/user.actions';
 import { Spinner } from '../ui/spinner';
+import OTPModal from './OTPModal';
+import { createAccount } from '@/lib/actions/user.actions';
 
 type FormType = 'sign-in' | 'sign-up';
 
@@ -46,13 +47,12 @@ export default function AuthForm({ type }: { type: FormType }) {
   const onSubmit = async (data: z.infer<typeof schema>) => {
     setIsLoading(true);
     setErrorMessage(null);
-
     try {
-      // const user =
-      //   type === 'sign-in' &&
-      //   (await createAccount({ fullName: data.fullName || '', email: data.email }));
-      // setAccountId(user.accountId);
-      setTimeout(() => {}, 10000);
+      const user =
+        type === 'sign-up' &&
+        (await createAccount({ fullName: data.fullName || '', email: data.email }));
+      setAccountId(user.accountId);
+      console.log('heer', user);
     } catch (error) {
       console.error('Error submitting the form:', error);
       setErrorMessage('An error occurred while submitting the form. Please try again.');
@@ -62,62 +62,69 @@ export default function AuthForm({ type }: { type: FormType }) {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
-      <h1 className="form-title">{type === 'sign-in' ? 'Sign In' : 'Sign Up'}</h1>
-      {type === 'sign-up' && (
+    <>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
+        <h1 className="form-title">{type === 'sign-in' ? 'Sign In' : 'Sign Up'}</h1>
+        {type === 'sign-up' && (
+          <Controller
+            name="fullName"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}> Full Name </FieldLabel>{' '}
+                <Input
+                  {...field}
+                  id={field.name}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="Enter your full name"
+                  className="shad-input rounded-md"
+                  autoComplete="name"
+                />{' '}
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}{' '}
+              </Field>
+            )}
+          />
+        )}
         <Controller
-          name="fullName"
+          name="email"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}> Full Name </FieldLabel>{' '}
+              <FieldLabel htmlFor={field.name}> Email </FieldLabel>
               <Input
                 {...field}
                 id={field.name}
+                type="email"
                 aria-invalid={fieldState.invalid}
-                placeholder="Enter your full name"
+                placeholder="Enter your email"
                 className="shad-input rounded-md"
-                autoComplete="name"
-              />{' '}
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}{' '}
+                autoComplete="email"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
         />
-      )}
-      <Controller
-        name="email"
-        control={form.control}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}> Email </FieldLabel>
-            <Input
-              {...field}
-              id={field.name}
-              type="email"
-              aria-invalid={fieldState.invalid}
-              placeholder="Enter your email"
-              className="shad-input rounded-md"
-              autoComplete="email"
-            />
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-          </Field>
-        )}
-      />
-      <Button type="submit" className="form-submit-button rounded-md" disabled={isLoading}>
-        {type === 'sign-in' ? 'Sign In' : 'Sign Up'} {isLoading && <Spinner className="size-3" />}
-      </Button>
-      {errorMessage && <p className="error-message">*{errorMessage}</p>}{' '}
-      <div className="body-2 flex justify-center">
-        <p className="text-light-100">
-          {type === 'sign-in' ? "Don't have an account?" : 'Already have an account?'}{' '}
-        </p>
-        <Link
-          href={type === 'sign-in' ? '/sign-up' : '/sign-in'}
-          className="ml-1 font-medium text-brand"
+        <Button
+          type="submit"
+          className="form-submit-button rounded-lg cursor-pointer"
+          disabled={isLoading}
         >
-          {type === 'sign-in' ? 'Sign Up' : 'Sign In'}{' '}
-        </Link>
-      </div>
-    </form>
+          {type === 'sign-in' ? 'Sign In' : 'Sign Up'} {isLoading && <Spinner className="size-3" />}
+        </Button>
+        {errorMessage && <p className="error-message">*{errorMessage}</p>}{' '}
+        <div className="body-2 flex justify-center">
+          <p className="text-light-100">
+            {type === 'sign-in' ? "Don't have an account?" : 'Already have an account?'}{' '}
+          </p>
+          <Link
+            href={type === 'sign-in' ? '/sign-up' : '/sign-in'}
+            className="ml-1 font-medium text-brand"
+          >
+            {type === 'sign-in' ? 'Sign Up' : 'Sign In'}{' '}
+          </Link>
+        </div>
+      </form>
+      {accountId && <OTPModal email={form.getValues('email')} accountId={accountId} />}
+    </>
   );
 }

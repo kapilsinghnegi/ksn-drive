@@ -190,7 +190,7 @@
 }
 
 @utility h2 {
-  @apply text-[24px] leading-9 font-bold;
+  @apply text-[28px] leading-9 font-bold;
 }
 
 @utility h3 {
@@ -259,16 +259,12 @@
   @apply flex h-19.5 flex-col justify-center rounded-xl border border-light-300 px-4 shadow-drop-1;
 }
 
-@utility shad-form-label {
-  @apply w-full pt-2 body-2 text-light-100;
-}
-
 @utility shad-form-message {
   @apply ml-4 text-red body-2;
 }
 
 @utility shad-alert-dialog {
-  @apply max-w-[95%] rounded-xl bg-white px-4 py-10 outline-none md:rounded-[30px] md:px-8 sm:w-fit;
+  @apply max-w-md rounded-xl bg-white px-4 py-10 outline-none md:rounded-[30px] md:px-8 sm:w-fit;
 }
 
 @utility shad-submit-btn {
@@ -276,11 +272,11 @@
 }
 
 @utility shad-otp {
-  @apply flex w-full justify-between gap-1 sm:gap-2;
+  @apply w-full flex justify-between *:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:md:h-14 *:data-[slot=input-otp-slot]:md:w-13 *:data-[slot=input-otp-slot]:text-xl *:data-[slot=input-otp-slot]:border *:data-[slot=input-otp-slot]:rounded-md font-medium;
 }
 
 @utility shad-otp-slot {
-  @apply flex size-12 justify-center gap-5 rounded-xl border-2 border-light-300 text-[40px] font-medium text-brand-100 ring-brand shadow-drop-1 md:size-16;
+  @apply border-2 border-light-300 font-medium text-brand-100 ring-brand shadow-drop-1;
 }
 
 @utility shad-sheet {
@@ -553,7 +549,7 @@
 
 /* OTP Modal */
 @utility otp-close-button {
-  @apply absolute -right-1 -top-7 cursor-pointer sm:-right-2 sm:-top-4;
+  @apply absolute -right-1 -top-7 cursor-pointer sm:-right-2 sm:-top-3;
 }
 
 @utility search {

@@ -1,4 +1,5 @@
 'use server';
+import { cookies } from 'next/headers';
 import { ID, Query } from 'node-appwrite';
 import { createAdminClient } from '../appwrite';
 import { appwriteConfig } from '../appwrite/config';
@@ -20,7 +21,7 @@ const handleError = (err: unknown, message: string) => {
   throw err;
 };
 
-const sendEmailOTP = async ({ email }: { email: string }) => {
+export const sendEmailOTP = async ({ email }: { email: string }) => {
   const { account } = await createAdminClient();
   try {
     const session = await account.createEmailToken({ userId: ID.unique(), email });
@@ -52,4 +53,20 @@ export const createAccount = async ({ fullName, email }: { fullName: string; ema
   }
 
   return parseStringify({ accountId });
+};
+
+export const verifySecret = async ({ userId, secret }: { userId: string; secret: string }) => {
+  try {
+    const { account } = await createAdminClient();
+    const session = await account.createSession(userId, secret);
+    (await cookies()).set('appwrite-session', session.secret, {
+      path: '/',
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true,
+    });
+    return parseStringify({ sessionId: session.$id });
+  } catch (error) {
+    handleError(error, 'Failed to verify OTP');
+  }
 };
