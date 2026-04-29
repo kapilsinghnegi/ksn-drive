@@ -31,3 +31,5 @@ export const navItems: NavItem[] = [
 
 export const avatarPlaceholderUrl =
   'https://res.cloudinary.com/ksnproj/image/upload/v1776278233/avatar_inmm7a.jpg';
+
+export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB

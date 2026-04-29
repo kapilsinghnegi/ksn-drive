@@ -20,7 +20,7 @@ interface Props {
   email: string;
 }
 
-export default function MobileNavigation({ fullName, avatar, email }: Props) {
+export default function MobileNavigation({ ownerId, accountId, fullName, avatar, email }: Props) {
   const pathname = usePathname();
   return (
     <header className="mobile-header">
@@ -33,7 +33,7 @@ export default function MobileNavigation({ fullName, avatar, email }: Props) {
             </Button>
           }
         />
-        <SheetContent className="shad-sheet h-screen px-3 overflow-scroll">
+        <SheetContent className="shad-sheet h-screen px-3 overflow-y-auto">
           <SheetTitle className="my-4 border-b-2 border-light-300/40">
             <div className="header-user">
               <Image
@@ -65,7 +65,7 @@ export default function MobileNavigation({ fullName, avatar, email }: Props) {
           <Separator className="my-5 bg-light-200/20" />
 
           <div className="flex flex-col justify-between gap-5 pb-5">
-            <FileUploader />
+            <FileUploader ownerId={ownerId} accountId={accountId} className="w-full" />
             <Button
               variant="destructive"
               type="submit"

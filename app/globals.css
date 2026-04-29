@@ -502,10 +502,6 @@
   @apply subtitle-2 mb-2 line-clamp-1 max-w-75;
 }
 
-@utility error-toast {
-  @apply rounded-[10px] bg-red;
-}
-
 @utility header {
   @apply hidden items-center justify-between gap-5 p-5 sm:flex lg:py-7 xl:gap-10;
 }
