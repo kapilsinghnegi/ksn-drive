@@ -16,7 +16,7 @@ export default function Thumbnail({ type, extension, url = '', imageClassName, c
   return (
     <figure className={cn('thumbnail', className)}>
       <Image
-        src={isImage ? url : getFileIcon(extension, type)}
+        src={isImage && url ? url : getFileIcon(extension, type)}
         alt="thumbnail"
         width={100}
         height={100}

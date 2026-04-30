@@ -1,7 +1,7 @@
 import FileCard from '@/components/files/FileCard';
 import { Card } from '@/components/ui/card';
 import { getFiles } from '@/lib/actions/file.actions';
-import type { SearchParamProps } from '@/types';
+import type { FileDocument, SearchParamProps } from '@/types';
 import { Models } from 'node-appwrite';
 
 export default async function FileType({ params }: SearchParamProps) {
@@ -21,7 +21,7 @@ export default async function FileType({ params }: SearchParamProps) {
 
       {files.total > 0 ? (
         <section className="file-list">
-          {files.rows.map((file: Models.File) => (
+          {files.rows.map((file: FileDocument) => (
             <FileCard key={file.$id} file={file} />
           ))}
         </section>

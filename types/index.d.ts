@@ -1,5 +1,5 @@
-import { UploadProgress } from 'node-appwrite';
 import type { ReactNode } from 'react';
+import type { Models } from 'node-appwrite';
 
 declare interface NavItem {
   name: string;
@@ -19,4 +19,16 @@ declare interface UploadFileProps {
 declare interface SearchParamProps {
   params?: Promise<SegmentParams>;
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+declare interface FileDocument extends Models.Row {
+  accountId: string;
+  bucketFileId: string;
+  extension: string;
+  name: string;
+  owner: string;
+  size: number;
+  type: FileType;
+  url: string;
+  users: string[];
 }

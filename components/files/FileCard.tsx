@@ -1,6 +1,32 @@
-import { Models } from 'node-appwrite';
-import React from 'react';
+import type { FileDocument } from '@/types';
+import Link from 'next/link';
+import Thumbnail from './Thumbnail';
+import { convertFileSize, formatDateTime } from '@/lib/utils';
+import ActionDropdown from './ActionDropdown';
 
-export default function FileCard({ file }: { file: Models.File }) {
-  return <h1 className="text-lg font-medium">{file.name}</h1>;
+export default async function FileCard({ file }: { file: FileDocument }) {
+  const { $id: id, extension, type, url, name, $createdAt: createdAt } = file;
+  return (
+    <Link href={url} target="_blank" className="file-card">
+      <div className="flex justify-between">
+        <Thumbnail
+          type={type}
+          extension={extension}
+          url={url}
+          className="!size-20"
+          imageClassName="!size-11"
+        />
+        <div className="flex flex-col items-end justify-between">
+          <ActionDropdown />
+          <p className="body-1">{convertFileSize(file.size)}</p>
+        </div>
+      </div>
+      <div className="file-card-details">
+        <p className="subtitle-2 line-clamp-1">{name}</p>
+        <p className="body-2 text-light-200">{formatDateTime(createdAt)}</p>
+        {/* <p className="caption line-clamp-1 text-light-200">By: {file.owner.fullName}</p> */}
+      </div>
+      {file.name}
+    </Link>
+  );
 }
