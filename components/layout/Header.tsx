@@ -5,12 +5,12 @@ import { LogOut } from 'lucide-react';
 import Search from '../files/Search';
 import FileUploader from '../files/FileUploader';
 
-export default function Header({ userId, accountId }: { userId: string; accountId: string }) {
+export default function Header({ ownerId, accountId }: { ownerId: string; accountId: string }) {
   return (
     <header className="header">
       <Search />
       <div className="header-wrapper">
-        <FileUploader ownerId={userId} accountId={accountId} />
+        <FileUploader ownerId={ownerId} accountId={accountId} />
         <form
           action={async () => {
             'use server';

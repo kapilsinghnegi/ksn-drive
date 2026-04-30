@@ -10,10 +10,8 @@ import { MAX_FILE_SIZE } from '@/constants';
 import { Button } from '../ui/button';
 import { toast } from '../ui/toast';
 import Thumbnail from './Thumbnail';
-import { Trash, Upload } from 'lucide-react';
-import { Spinner } from '../ui/spinner';
-import Image from 'next/image';
 import { BarLoader } from 'react-spinners';
+import { Trash, Upload } from 'lucide-react';
 
 interface Props {
   ownerId: string;

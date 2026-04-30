@@ -13,8 +13,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <main className="flex h-screen">
       <Sidebar {...currentUser} />
       <section className="flex h-full flex-1 flex-col">
-        <MobileNavigation {...currentUser} />
-        <Header {...currentUser} />
+        <MobileNavigation {...currentUser} ownerId={currentUser.$id} />
+        <Header {...currentUser} ownerId={currentUser.$id} />
         <div className="main-content">{children}</div>
       </section>
       <Toaster />
