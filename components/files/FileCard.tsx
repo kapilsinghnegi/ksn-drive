@@ -19,7 +19,7 @@ export default async function FileCard({ file }: { file: FileDocument }) {
         />
         <div className="flex flex-col items-end justify-between">
           <ActionDropdown file={file} />
-          <p className="body-1">{convertFileSize(file.size)}</p>
+          <p className="body-2">{convertFileSize(file.size)}</p>
         </div>
       </div>
       <div className="file-card-details">

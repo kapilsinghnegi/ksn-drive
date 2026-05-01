@@ -16,13 +16,14 @@ import {
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Spinner } from '../ui/spinner';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, Trash } from 'lucide-react';
 
-import { renameFile } from '@/lib/actions/file.actions';
+import { deleteFile, renameFile, updateFileUsers } from '@/lib/actions/file.actions';
 import { constructDownloadUrl } from '@/lib/utils';
 import { actionsDropdownItems } from '@/constants';
 
 import type { ActionType, FileDocument } from '@/types';
+import { FileDetails, ShareInput } from './ActionsModalContent';
 
 export default function ActionDropdown({ file }: { file: FileDocument }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,6 +31,7 @@ export default function ActionDropdown({ file }: { file: FileDocument }) {
   const [action, setAction] = useState<ActionType | null>(null);
   const [name, setName] = useState(file.name);
   const [isLoading, setIsLoading] = useState(false);
+  const [emails, setEmails] = useState<string[]>([]);
 
   const path = usePathname();
 
@@ -46,12 +48,20 @@ export default function ActionDropdown({ file }: { file: FileDocument }) {
     const success = false;
     const actions = {
       rename: () => renameFile({ fileId: file.$id, name, extension: file.extension, path }),
-      share: () => console.log('share'),
-      delete: () => console.log('delete'),
+      share: () => updateFileUsers({ fileId: file.$id, emails, path }),
+      delete: () => deleteFile({ fileId: file.$id, bucketFileId: file.bucketField, path }),
     };
     success: await actions[action.value as keyof typeof actions]();
     if (!success) closeAllModals();
     setIsLoading(false);
+  };
+
+  const handleRemoveUser = async (email: string) => {
+    const updatedEmails = emails.filter((e) => e !== email);
+
+    const success = await updateFileUsers({ fileId: file.$id, emails: updatedEmails, path });
+    if (success) setEmails(updatedEmails);
+    closeAllModals();
   };
 
   const renderDialogContent = () => {
@@ -68,6 +78,15 @@ export default function ActionDropdown({ file }: { file: FileDocument }) {
               onChange={(e) => setName(e.target.value)}
             />
           )}
+          {value === 'details' && <FileDetails file={file} />}
+          {value === 'share' && (
+            <ShareInput file={file} onInputChange={setEmails} onRemove={handleRemoveUser} />
+          )}
+          {value === 'delete' && (
+            <p className="delete-confirmation">
+              Are you sure you want to delete <span className="delete-file-name">{file.name}</span>?
+            </p>
+          )}
         </DialogHeader>
         {['rename', 'delete', 'share'].includes(value) && (
           <DialogFooter className="flex flex-col gap-3 md:flex-row">
@@ -78,7 +97,11 @@ export default function ActionDropdown({ file }: { file: FileDocument }) {
             >
               Cancel
             </Button>
-            <Button onClick={handleAction} className="modal-submit-button cursor-pointer">
+            <Button
+              variant={value === 'delete' ? 'destructive' : 'default'}
+              onClick={handleAction}
+              className="modal-submit-button cursor-pointer"
+            >
               <p className="capitalize">{value}</p>
               {isLoading && <Spinner />}
             </Button>
@@ -111,6 +134,7 @@ export default function ActionDropdown({ file }: { file: FileDocument }) {
           <DropdownMenuSeparator />
           {actionsDropdownItems.map((actionItem) => (
             <DropdownMenuItem
+              variant={actionItem.value === 'delete' ? 'destructive' : 'default'}
               key={actionItem.value}
               className="shad-dropdown-item"
               onClick={() => {

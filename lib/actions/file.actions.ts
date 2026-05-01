@@ -3,12 +3,18 @@
 import { revalidatePath } from 'next/cache';
 import { ID, Models, Query } from 'node-appwrite';
 import { InputFile } from 'node-appwrite/file';
+
 import { createAdminClient } from '../appwrite';
 import { appwriteConfig } from '../appwrite/config';
 import { getCurrentUser } from './user.actions';
 import { constructFileUrl, getFileType, parseStringify } from '../utils';
 
-import type { RenameFileProps, UploadFileProps } from '@/types';
+import type {
+  DeleteFileProps,
+  RenameFileProps,
+  UpdateFileUsersProps,
+  UploadFileProps,
+} from '@/types';
 
 const handleError = (error: unknown, message: string) => {
   console.log(error, message);
@@ -101,5 +107,47 @@ export const renameFile = async ({ fileId, name, extension, path }: RenameFilePr
     return parseStringify(updatedFile);
   } catch (error) {
     handleError(error, 'Failed to rename file');
+  }
+};
+export const updateFileUsers = async ({ fileId, emails, path }: UpdateFileUsersProps) => {
+  const { databases } = await createAdminClient();
+  try {
+    const updatedFile = await databases.updateRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.filesTableId,
+      rowId: fileId,
+      data: {
+        users: emails,
+      },
+    });
+
+    revalidatePath(path);
+    return parseStringify(updatedFile);
+  } catch (error) {
+    handleError(error, 'Failed to update file users');
+  }
+};
+
+export const deleteFile = async ({ fileId, bucketFileId, path }: DeleteFileProps) => {
+  const { databases, storage } = await createAdminClient();
+
+  try {
+    const deletedFile = await databases.deleteRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.filesTableId,
+      rowId: fileId,
+    });
+
+    if (deletedFile) {
+      await storage.deleteFile({
+        bucketId: appwriteConfig.bucketId,
+        fileId: bucketFileId,
+      });
+    }
+
+    revalidatePath(path);
+    return parseStringify({ status: 'success' });
+  } catch (error) {
+    handleError(error, 'Failed to delete file');
   }
 };

@@ -495,7 +495,7 @@
 }
 
 @utility uploader-preview-item {
-  @apply flex items-center justify-between gap-3 rounded-xl p-3 shadow-drop-3;
+  @apply flex items-center justify-between gap-3 rounded-xl p-3 border;
 }
 
 @utility preview-item-name {
