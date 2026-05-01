@@ -21,14 +21,32 @@ declare interface SearchParamProps {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+declare interface User extends Models.User {
+  fullName: string;
+  avatar: string;
+}
+
 declare interface FileDocument extends Models.Row {
   accountId: string;
-  bucketFileId: string;
+  bucketField: string;
   extension: string;
   name: string;
-  owner: string;
+  owner: User;
   size: number;
   type: FileType;
   url: string;
   users: string[];
+}
+
+declare interface ActionType {
+  label: string;
+  icon: ReactNode;
+  value: string;
+}
+
+declare interface RenameFileProps {
+  fileId: string;
+  name: string;
+  extension: string;
+  path: string;
 }

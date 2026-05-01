@@ -226,7 +226,7 @@
 }
 
 @utility caption {
-  @apply text-[12px] leading-4 font-normal;
+  @apply text-[14px] leading-4 font-normal;
 }
 
 @utility overline {

@@ -1,5 +1,16 @@
 import type { NavItem } from '@/types';
-import { CircleEllipsis, Files, Images, LayoutDashboard, SquarePlay } from 'lucide-react';
+import {
+  CircleEllipsis,
+  Download,
+  Files,
+  FolderPen,
+  Images,
+  Info,
+  LayoutDashboard,
+  Share2,
+  SquarePlay,
+  Trash2,
+} from 'lucide-react';
 
 export const navItems: NavItem[] = [
   {
@@ -26,6 +37,34 @@ export const navItems: NavItem[] = [
     name: 'Others',
     icon: <CircleEllipsis />,
     url: '/others',
+  },
+];
+
+export const actionsDropdownItems = [
+  {
+    label: 'Rename',
+    icon: <FolderPen />,
+    value: 'rename',
+  },
+  {
+    label: 'Details',
+    icon: <Info />,
+    value: 'details',
+  },
+  {
+    label: 'Share',
+    icon: <Share2 />,
+    value: 'share',
+  },
+  {
+    label: 'Download',
+    icon: <Download />,
+    value: 'download',
+  },
+  {
+    label: 'Delete',
+    icon: <Trash2 />,
+    value: 'delete',
   },
 ];
 

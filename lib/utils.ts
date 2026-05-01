@@ -167,3 +167,7 @@ export const formatDateTime = (isoString: string | null | undefined) => {
   const year = date.getFullYear();
   return `${time}, ${day} ${month} ${year}`;
 };
+
+export const constructDownloadUrl = (bucketFileId: string) => {
+  return `${appwriteConfig.endpointUrl}/storage/buckets/${appwriteConfig.bucketId}/files/${bucketFileId}/download?project=${appwriteConfig.projectId}`;
+};

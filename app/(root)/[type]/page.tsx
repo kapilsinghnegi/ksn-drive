@@ -7,7 +7,6 @@ import { Models } from 'node-appwrite';
 export default async function FileType({ params }: SearchParamProps) {
   const type = ((await params)?.type as string) || '';
   const files = await getFiles();
-  console.log(files.rows[0]);
   return (
     <div className="page-container">
       <section className="w-full">
