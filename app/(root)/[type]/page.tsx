@@ -1,12 +1,16 @@
 import FileCard from '@/components/files/FileCard';
-import { Card } from '@/components/ui/card';
 import { getFiles } from '@/lib/actions/file.actions';
-import type { FileDocument, SearchParamProps } from '@/types';
-import { Models } from 'node-appwrite';
+import { getFileTypesParams } from '@/lib/utils';
 
-export default async function FileType({ params }: SearchParamProps) {
+import type { FileDocument, FileType, SearchParamProps } from '@/types';
+
+export default async function FileType({ searchParams, params }: SearchParamProps) {
   const type = ((await params)?.type as string) || '';
-  const files = await getFiles();
+  const searchText = ((await searchParams)?.query as string) || '';
+  const sort = ((await searchParams)?.sort as string) || '';
+
+  const types = getFileTypesParams(type) as FileType[];
+  const files = await getFiles({ types, searchText, sort });
   return (
     <div className="page-container">
       <section className="w-full">

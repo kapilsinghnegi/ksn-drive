@@ -6,14 +6,13 @@ import ActionDropdown from './ActionDropdown';
 import Image from 'next/image';
 
 export default async function FileCard({ file }: { file: FileDocument }) {
-  const { $id: id, extension, type, url, name, $createdAt: createdAt, owner } = file;
   return (
-    <Link href={url} target="_blank" className="file-card">
+    <Link href={file.url} target="_blank" className="file-card">
       <div className="flex justify-between">
         <Thumbnail
-          type={type}
-          extension={extension}
-          url={url}
+          type={file.type}
+          extension={file.extension}
+          url={file.url}
           className="!size-20"
           imageClassName="!size-11"
         />
@@ -23,11 +22,11 @@ export default async function FileCard({ file }: { file: FileDocument }) {
         </div>
       </div>
       <div className="file-card-details">
-        <p className="subtitle-2 line-clamp-1">{name}</p>
-        <p className="body-2 text-light-200">{formatDateTime(createdAt)}</p>
+        <p className="subtitle-2 line-clamp-1">{file.name}</p>
+        <p className="body-2 text-light-200">{formatDateTime(file.$createdAt)}</p>
         <p className="caption font-medium flex items-center gap-1 text-light-200 line-clamp-1">
-          <Image height={20} width={20} src={owner.avatar} alt="Owner Avatar" />
-          {owner.fullName}
+          <Image height={20} width={20} src={file.owner.avatar} alt="Owner Avatar" />
+          {file.owner.fullName}
         </p>
       </div>
     </Link>

@@ -53,22 +53,26 @@ export const getFileIcon = (extension: string | undefined, type: FileType | stri
   switch (extension) {
     // Document
     case 'pdf':
-      return '/assets/icons/file-pdf.svg';
+      return '/assets/file-pdf.svg';
     case 'doc':
-      return '/assets/icons/file-doc.svg';
+      return '/assets/file-doc.svg';
     case 'docx':
-      return '/assets/icons/file-docx.svg';
+      return '/assets/file-docx.svg';
     case 'csv':
-      return '/assets/icons/file-csv.svg';
+      return '/assets/file-csv.svg';
     case 'txt':
-      return '/assets/icons/file-txt.svg';
+      return '/assets/file-txt.svg';
     case 'xls':
     case 'xlsx':
-      return '/assets/icons/file-document.svg';
+    case 'csv':
+      return '/assets/file-sheet.svg';
+    case 'ppt':
+    case 'pptx':
+      return '/assets/file-ppt.svg';
 
     // Image
     case 'svg':
-      return '/assets/icons/file-image.svg';
+      return '/assets/file-svg.svg';
 
     // Video
     case 'mkv':
@@ -80,7 +84,7 @@ export const getFileIcon = (extension: string | undefined, type: FileType | stri
     case 'webm':
     case 'm4v':
     case '3gp':
-      return '/assets/icons/file-video.svg';
+      return '/assets/file-video.svg';
 
     // Audio
     case 'mp3':
@@ -93,20 +97,26 @@ export const getFileIcon = (extension: string | undefined, type: FileType | stri
     case 'm4a':
     case 'aiff':
     case 'alac':
-      return '/assets/icons/file-audio.svg';
+      return '/assets/file-audio.svg';
+
+    // Zip
+    case 'zip':
+    case 'zipx':
+    case '':
+      return '/assets/file-zip.svg';
 
     default:
       switch (type) {
         case 'image':
-          return '/assets/icons/file-image.svg';
+          return '/assets/file-image.svg';
         case 'document':
-          return '/assets/icons/file-document.svg';
+          return '/assets/file-document.svg';
         case 'video':
-          return '/assets/icons/file-video.svg';
+          return '/assets/file-video.svg';
         case 'audio':
-          return '/assets/icons/file-audio.svg';
+          return '/assets/file-audio.svg';
         default:
-          return '/assets/icons/file-other.svg';
+          return '/assets/file-other.svg';
       }
   }
 };
@@ -170,4 +180,19 @@ export const formatDateTime = (isoString: string | null | undefined) => {
 
 export const constructDownloadUrl = (bucketFileId: string) => {
   return `${appwriteConfig.endpointUrl}/storage/buckets/${appwriteConfig.bucketId}/files/${bucketFileId}/download?project=${appwriteConfig.projectId}`;
+};
+
+export const getFileTypesParams = (type: string) => {
+  switch (type) {
+    case 'documents':
+      return ['document'];
+    case 'images':
+      return ['image'];
+    case 'media':
+      return ['video', 'audio'];
+    case 'others':
+      return ['other'];
+    default:
+      return ['document'];
+  }
 };
