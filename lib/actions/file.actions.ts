@@ -84,7 +84,10 @@ const createQueries = (
 
   if (sort) {
     const [sortBy, orderBy] = sort.split('-');
+    console.log(sortBy);
     queries.push(orderBy === 'asc' ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy));
+  } else {
+    queries.push(Query.orderDesc('$createdAt'));
   }
 
   return queries;
@@ -132,6 +135,7 @@ export const renameFile = async ({ fileId, name, extension, path }: RenameFilePr
     handleError(error, 'Failed to rename file');
   }
 };
+
 export const updateFileUsers = async ({ fileId, emails, path }: UpdateFileUsersProps) => {
   const { databases } = await createAdminClient();
   try {

@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SearchIcon } from 'lucide-react';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '../ui/input-group';
 
-import Thumbnail from './Thumbnail';
+import Thumbnail from '../files/Thumbnail';
 import { formatDateTime } from '@/lib/utils';
 import type { FileDocument } from '@/types';
 import { getFiles } from '@/lib/actions/file.actions';
@@ -33,7 +33,7 @@ export default function Search() {
       setOpen(true);
     };
     fetchFiles();
-  }, [query]);
+  }, [debouncedQuery]);
 
   useEffect(() => {
     if (!searchQuery) {
@@ -61,7 +61,7 @@ export default function Search() {
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
-        <InputGroupAddon align="inline-end">{results?.length} results</InputGroupAddon>
+        {query && <InputGroupAddon align="inline-end">{results?.length} results</InputGroupAddon>}
         {open && (
           <ul className="search-result">
             {results?.length > 0 ? (

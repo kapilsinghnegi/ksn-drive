@@ -2,7 +2,7 @@ import React from 'react';
 import { signOutUser } from '@/lib/actions/user.actions';
 import { Button } from '../ui/button';
 import { LogOut } from 'lucide-react';
-import Search from '../files/Search';
+import Search from './Search';
 import FileUploader from '../files/FileUploader';
 
 export default function Header({ ownerId, accountId }: { ownerId: string; accountId: string }) {
@@ -19,6 +19,7 @@ export default function Header({ ownerId, accountId }: { ownerId: string; accoun
         >
           <Button variant="destructive" type="submit" className="sign-out-button">
             <LogOut className="size-5" />
+            Log Out
           </Button>
         </form>
       </div>

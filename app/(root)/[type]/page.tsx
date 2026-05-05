@@ -1,4 +1,5 @@
 import FileCard from '@/components/files/FileCard';
+import Sort from '@/components/files/Sort';
 import { getFiles } from '@/lib/actions/file.actions';
 import { getFileTypesParams } from '@/lib/utils';
 
@@ -11,6 +12,7 @@ export default async function FileType({ searchParams, params }: SearchParamProp
 
   const types = getFileTypesParams(type) as FileType[];
   const files = await getFiles({ types, searchText, sort });
+
   return (
     <div className="page-container">
       <section className="w-full">
@@ -19,6 +21,10 @@ export default async function FileType({ searchParams, params }: SearchParamProp
           <p className="body-1">
             Total: <span className="h5">0MB</span>
           </p>
+          <div className="sort-container">
+            <p className="body-2 hidden text-light-200 sm:block">Sort by:</p>
+            <Sort />
+          </div>
         </div>
       </section>
 
