@@ -1,5 +1,5 @@
-import { FileType } from '@/types';
 import { appwriteConfig } from './appwrite/config';
+import { FileType, TotalSpace } from '@/types';
 
 export { cn } from 'cn';
 
@@ -195,4 +195,49 @@ export const getFileTypesParams = (type: string) => {
     default:
       return ['document'];
   }
+};
+
+export const getUsageSummary = (totalSpace: TotalSpace) => {
+  return [
+    {
+      title: 'Photos',
+      size: totalSpace.image.size,
+      latestDate: totalSpace.image.latestDate,
+      icon: '/assets/image.svg',
+      url: '/images',
+    },
+    {
+      title: 'Documents',
+      size: totalSpace.document.size,
+      latestDate: totalSpace.document.latestDate,
+      icon: '/assets/document.svg',
+      url: '/documents',
+    },
+    {
+      title: 'Videos',
+      size: totalSpace.video.size,
+      latestDate: totalSpace.video.latestDate,
+      icon: '/assets/video.svg',
+      url: '/media',
+    },
+    {
+      title: 'Audios',
+      size: totalSpace.audio.size,
+      latestDate: totalSpace.audio.latestDate,
+      icon: '/assets/audio.svg',
+      url: '/media',
+    },
+    {
+      title: 'Others',
+      size: totalSpace.other.size,
+      latestDate: totalSpace.other.latestDate,
+      icon: '/assets/other.svg',
+      url: '/others',
+    },
+  ];
+};
+
+export const calculatePercentage = (usedSpace: number, totalSpace: number) => {
+  const percentage = (usedSpace / totalSpace) * 100;
+  return Number(percentage.toFixed(2));
 };

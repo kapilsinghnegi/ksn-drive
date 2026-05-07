@@ -4,13 +4,14 @@ import { revalidatePath } from 'next/cache';
 import { ID, Models, Query } from 'node-appwrite';
 import { InputFile } from 'node-appwrite/file';
 
-import { createAdminClient } from '../appwrite';
+import { createAdminClient, createSessionClient } from '../appwrite';
 import { appwriteConfig } from '../appwrite/config';
 import { getCurrentUser } from './user.actions';
 import { constructFileUrl, getFileType, parseStringify } from '../utils';
 
 import type {
   DeleteFileProps,
+  FileType,
   GetFilesProps,
   RenameFileProps,
   UpdateFileUsersProps,
@@ -84,7 +85,6 @@ const createQueries = (
 
   if (sort) {
     const [sortBy, orderBy] = sort.split('-');
-    console.log(sortBy);
     queries.push(orderBy === 'asc' ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy));
   } else {
     queries.push(Query.orderDesc('$createdAt'));
@@ -176,5 +176,46 @@ export const deleteFile = async ({ fileId, bucketFileId, path }: DeleteFileProps
     return parseStringify({ status: 'success' });
   } catch (error) {
     handleError(error, 'Failed to delete file');
+  }
+};
+
+export const getTotalSpaceUsed = async () => {
+  const { databases } = await createSessionClient();
+  try {
+    const currentUser = await getCurrentUser();
+    if (!currentUser) throw new Error('User not found.');
+
+    const files = await databases.listRows({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.filesTableId,
+      queries: [Query.equal('owner', [currentUser.$id])],
+    });
+
+    const totalSpace = {
+      image: { size: 0, latestDate: '' },
+      document: { size: 0, latestDate: '' },
+      video: { size: 0, latestDate: '' },
+      audio: { size: 0, latestDate: '' },
+      other: { size: 0, latestDate: '' },
+      used: 0,
+      all: 2 * 1024 * 1024 * 1024, // 100GB
+    };
+
+    files.rows.forEach((file) => {
+      const fileType = file.type as FileType;
+      totalSpace[fileType].size += file.size;
+      totalSpace.used += file.size;
+
+      if (
+        !totalSpace[fileType].latestDate ||
+        new Date(file.$updatedAt) > new Date(totalSpace[fileType].latestDate)
+      ) {
+        totalSpace[fileType].latestDate = file.$updatedAt;
+      }
+    });
+
+    return parseStringify(totalSpace);
+  } catch (error) {
+    handleError(error, 'Failed to calculate total space used.');
   }
 };

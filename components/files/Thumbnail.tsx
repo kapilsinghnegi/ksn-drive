@@ -20,7 +20,7 @@ export default function Thumbnail({ type, extension, url = '', imageClassName, c
         alt="thumbnail"
         width={100}
         height={100}
-        className={cn('size-8 object-contain', imageClassName, isImage && 'thumbnail-image')}
+        className={cn('size-7 object-contain', imageClassName, isImage && 'thumbnail-image')}
       />
     </figure>
   );

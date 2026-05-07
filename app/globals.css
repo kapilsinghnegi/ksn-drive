@@ -291,10 +291,6 @@
   @apply w-[90%] max-w-100 rounded-[26px] px-6 py-8;
 }
 
-@utility shad-chart-title {
-  @apply text-white;
-}
-
 @utility shad-select-item {
   @apply cursor-pointer;
 }
@@ -460,31 +456,6 @@
   @apply flex flex-col gap-2 text-light-100;
 }
 
-/* Chart */
-@utility chart {
-  @apply flex items-center rounded-[20px] bg-brand p-5 text-white md:flex-col xl:flex-row;
-}
-
-@utility chart-container {
-  @apply mx-auto aspect-square w-45 text-white xl:w-62.5;
-}
-
-@utility chart-details {
-  @apply flex-1 items-start px-3 py-0 sm:px-5 lg:p-3 xl:pr-5;
-}
-
-@utility chart-total-percentage {
-  @apply fill-white text-4xl font-bold;
-}
-
-@utility chart-title {
-  @apply h3 md:text-center font-bold lg:text-left;
-}
-
-@utility chart-description {
-  @apply subtitle-1 mt-2 w-full md:text-center text-white/70 lg:text-left;
-}
-
 /* File uploader */
 @utility uploader-button {
   @apply primary-btn h-13 gap-2 px-10 shadow-drop-1;
@@ -605,10 +576,6 @@
 /* =========================================================
    NON-TAILWIND CSS
    ========================================================= */
-
-.recharts-responsive-container {
-  height: initial !important;
-}
 
 /* ShadCN focus overrides */
 .shad-sheet button,
