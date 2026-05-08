@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# KSN Drive
 
-## Getting Started
+A modern, full-stack cloud storage platform inspired by Google Drive, built with **Next.js, TypeScript, Appwrite, and Tailwind CSS**.
 
-First, run the development server:
+KSN Drive provides a clean interface for managing files and folders, uploading documents, organizing content, and interacting with cloud storage through a responsive web application.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Features
+
+- 🔐 **Authentication** — Secure user authentication and account management
+- 📁 **File Management** — Upload, organize, view, and manage files
+- 📂 **Folder Organization** — Organize files using folders and structured navigation
+- 🔎 **Search** — Quickly find files and folders
+- 📊 **Storage Analytics** — Visualize storage usage and file statistics
+- 📤 **File Uploads** — Drag-and-drop file upload support
+- 🔗 **File Sharing** — Share files with other users
+- 🗑️ **File Management Actions** — Rename, delete, download, and manage stored files
+- 📱 **Responsive UI** — Optimized for desktop, tablet, and mobile devices
+- ⚡ **Modern UI** — Built with Tailwind CSS and shadcn/ui
+- 🛡️ **Form Validation** — Type-safe validation using React Hook Form and Zod
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- **Next.js**
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **shadcn/ui**
+- **Lucide React**
+
+### Backend & Services
+
+- **Appwrite**
+- **Node.js**
+- **Appwrite Storage**
+
+### Libraries & Tools
+
+- **React Hook Form**
+- **Zod**
+- **React Dropzone**
+- **Recharts**
+- **ESLint**
+- **Prettier**
+- **pnpm**
+
+## 🏗️ Architecture
+
+The application uses Next.js as the primary application framework, with Appwrite providing backend services such as authentication and cloud storage.
+
+```text
+┌──────────────────────────────┐
+│          KSN Drive            │
+│        Next.js + React        │
+└──────────────┬───────────────┘
+               │
+       ┌───────┴────────┐
+       │                │
+       ▼                ▼
+ Authentication      Storage
+       │                │
+       └───────┬────────┘
+               ▼
+            Appwrite
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Make sure you have the following installed:
 
-## Learn More
+- Node.js 18+
+- pnpm
+- An Appwrite project
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Clone the repository
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+git clone https://github.com/kapilsinghnegi/ksn-drive.git
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+cd ksn-drive
+```
 
-## Deploy on Vercel
+### 2. Install dependencies
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm install
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Configure environment variables
+
+Create a `.env.local` file in the project root and add the required Appwrite configuration:
+
+```env
+NEXT_PUBLIC_APPWRITE_ENDPOINT=
+NEXT_PUBLIC_APPWRITE_PROJECT=
+NEXT_PUBLIC_APPWRITE_DATABASE=
+NEXT_PUBLIC_APPWRITE_USERS_COLLECTION=
+NEXT_PUBLIC_APPWRITE_FILES_COLLECTION=
+NEXT_PUBLIC_APPWRITE_BUCKET=
+NEXT_APPWRITE_SECRET_KEY=
+```
+
+> Do not commit your environment variables or API credentials to the repository.
+
+### 4. Start the development server
+
+```bash
+pnpm dev
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+## 📦 Available Scripts
+
+| Command             | Description                      |
+| ------------------- | -------------------------------- |
+| `pnpm dev`          | Start the development server     |
+| `pnpm build`        | Create a production build        |
+| `pnpm start`        | Start the production server      |
+| `pnpm lint`         | Run ESLint                       |
+| `pnpm format`       | Format the project with Prettier |
+| `pnpm format:check` | Check code formatting            |
+
+## 📁 Project Structure
+
+```text
+ksn-drive/
+├── app/              # Next.js routes and application pages
+├── components/       # Reusable UI components
+├── constants/        # Application constants
+├── lib/              # Appwrite and application utilities
+├── public/            # Static assets
+├── types/             # TypeScript type definitions
+├── next.config.ts     # Next.js configuration
+├── package.json       # Dependencies and scripts
+└── tsconfig.json      # TypeScript configuration
+```
+
+## 📄 License
+
+This project is available for educational and personal use.
