@@ -6,6 +6,8 @@ import Header from '@/components/layout/Header';
 import MobileNavigation from '@/components/layout/MobileNavigation';
 import { Toaster } from '@/components/ui/toast';
 
+export const dynamic = 'force-dynamic';
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const currentUser = await getCurrentUser();
   if (!currentUser) return redirect('/sign-in');
